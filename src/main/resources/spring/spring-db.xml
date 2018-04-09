@@ -60,7 +60,8 @@
 -->
 
     <beans profile="hsqldb">
-        <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+        <context:property-placeholder location="classpath:db/hsqldb.properties"
+                                      system-properties-mode="OVERRIDE"/>
 
         <!--no pooling-->
         <bean id="dataSource"
@@ -82,10 +83,10 @@
               p:password="${database.password}"/>
     </beans>
 
-    <beans profile="jdbc">
-    </beans>
-    <beans profile="jpa">
-    </beans>
-    <beans profile="datajpa">
-    </beans>
+    <!--<beans profile="jdbc">-->
+    <!--</beans>-->
+    <!--<beans profile="jpa">-->
+    <!--</beans>-->
+    <!--<beans profile="datajpa">-->
+    <!--</beans>-->
 </beans>
