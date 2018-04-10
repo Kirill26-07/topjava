@@ -58,6 +58,6 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+        return repository.findByDateTimeIsBetweenAndUserIdOrderByIdDesc(startDate, endDate, userId);
     }
 }
