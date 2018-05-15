@@ -38,12 +38,7 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        if (Objects.nonNull(repository.findByIdAndUserId(id, userId))) {
-            repository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
+        return repository.delete(id, userId) != 0;
     }
 
     @Override
@@ -53,11 +48,11 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return repository.findByUserIdOrderByIdDesc(userId);
+        return repository.findByUserIdOrderByDateTimeDesc(userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return repository.findByDateTimeIsBetweenAndUserIdOrderByIdDesc(startDate, endDate, userId);
+        return repository.findByDateTimeIsBetweenAndUserIdOrderByDateTimeDesc(startDate, endDate, userId);
     }
 }
