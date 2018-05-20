@@ -12,10 +12,9 @@ import java.util.List;
 
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
-    @Transactional
     @Modifying
-    @Query("DELETE FROM Meal m WHERE (m.id=:id) AND (m.user.id=:user_id)")
-    int delete(@Param("id") int id, @Param("user_id") int user_id);
+    @Query("DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
+    int delete(@Param("id")int id, @Param("userId")int userId);
 
     Meal findByIdAndUserId(int id, int userId);
 
