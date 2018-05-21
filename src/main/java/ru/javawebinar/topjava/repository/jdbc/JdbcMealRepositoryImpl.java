@@ -16,26 +16,19 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
-public class JdbcMealRepositoryImpl implements MealRepository {
 
-    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+public abstract class JdbcMealRepositoryImpl implements MealRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    protected static RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    protected JdbcTemplate jdbcTemplate;
 
-    private final SimpleJdbcInsert insertMeal;
+    protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    public JdbcMealRepositoryImpl(DataSource dataSource, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("meals")
-                .usingGeneratedKeyColumns("id");
+    protected SimpleJdbcInsert insertMeal;
 
-        this.jdbcTemplate = jdbcTemplate;
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
+    protected static final String MEALS = "meals";
+    protected static final String ID = "id";
 
     @Override
     public Meal save(Meal meal, int userId) {
