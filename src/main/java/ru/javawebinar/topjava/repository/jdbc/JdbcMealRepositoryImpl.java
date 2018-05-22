@@ -30,6 +30,17 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
     protected static final String MEALS = "meals";
     protected static final String ID = "id";
 
+    protected void init(DataSource dataSource,
+                        JdbcTemplate jdbcTemplate,
+                        NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.insertMeal = new SimpleJdbcInsert(dataSource)
+                .withTableName(MEALS)
+                .usingGeneratedKeyColumns(ID);
+
+        this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
     @Override
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
