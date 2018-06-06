@@ -13,46 +13,42 @@ import java.util.List;
 public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Autowired
-    private CrudMealRepository repository;
+    private CrudMealRepository mealRepository;
 
     @Autowired
-    private CrudUserRepository crudUserRepository;
+    private CrudUserRepository userRepository;
 
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
-        if (meal.isNew()) {
-            meal.setUser(crudUserRepository.getOne(userId));
-            return repository.save(meal);
-        } else {
-            Meal m = repository.getOne(meal.getId());
-            if (m.getUser().getId() == userId) {
-                meal.setUser(crudUserRepository.getOne(userId));
-                return repository.save(meal);
-            } else {
+        if (!meal.isNew()) {
+            Meal m = mealRepository.getOne(meal.getId());
+            if (m.getUser().getId() != userId) {
                 return null;
             }
         }
+        meal.setUser(userRepository.getOne(userId));
+        return mealRepository.save(meal);
     }
 
     @Transactional
     @Override
     public boolean delete(int id, int userId) {
-        return repository.delete(id, userId) != 0;
+        return mealRepository.delete(id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return repository.findByIdAndUserId(id, userId);
+        return mealRepository.findByIdAndUserId(id, userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return repository.findByUserIdOrderByDateTimeDesc(userId);
+        return mealRepository.findByUserIdOrderByDateTimeDesc(userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return repository.findByDateTimeIsBetweenAndUserIdOrderByDateTimeDesc(startDate, endDate, userId);
+        return mealRepository.findByDateTimeIsBetweenAndUserIdOrderByDateTimeDesc(startDate, endDate, userId);
     }
 }
