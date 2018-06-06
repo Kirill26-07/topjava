@@ -12,12 +12,4 @@ import javax.sql.DataSource;
 @Profile(Profiles.POSTGRES_DB)
 @Repository
 public class JdbcMealRepositoryPostgresqlImpl extends JdbcMealRepositoryImpl {
-
-    @Autowired
-    public JdbcMealRepositoryPostgresqlImpl(DataSource dataSource,
-                                            JdbcTemplate jdbcTemplate,
-                                            NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-
-        init(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
-    }
 }

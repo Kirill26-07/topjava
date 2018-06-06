@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,6 +29,7 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
     protected static final String MEALS = "meals";
     protected static final String ID = "id";
 
+    @Autowired
     protected void init(DataSource dataSource,
                         JdbcTemplate jdbcTemplate,
                         NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

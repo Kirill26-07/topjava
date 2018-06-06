@@ -20,14 +20,6 @@ import java.time.LocalDateTime;
 @Repository
 public class JdbcMealRepositoryHsqldbImpl extends JdbcMealRepositoryImpl {
 
-    @Autowired
-    public JdbcMealRepositoryHsqldbImpl(DataSource dataSource,
-                                        JdbcTemplate jdbcTemplate,
-                                        NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-
-        init(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
-    }
-
     @Override
     protected Object convert(LocalDateTime dateTime) {
         return Timestamp.valueOf(dateTime);
