@@ -12,6 +12,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.sql.DataSource;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,9 +42,7 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    protected Object convert(LocalDateTime dateTime) {
-        return dateTime;
-    }
+    protected abstract Serializable convert(LocalDateTime dateTime);
 
     @Override
     public Meal save(Meal meal, int userId) {

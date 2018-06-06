@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.web;
 
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -20,6 +22,7 @@ import java.util.Objects;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
+@Profile(value = {Profiles.DATAJPA, Profiles.POSTGRES_DB})
 public class MealServlet extends HttpServlet {
 
     private ConfigurableApplicationContext springContext;
@@ -28,6 +31,7 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+
         springContext = new ClassPathXmlApplicationContext(
                 "spring/spring-app.xml",
                 "spring/spring-db.xml");
