@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class DataJpaMealRepositoryImpl implements MealRepository {
@@ -22,8 +23,8 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     @Transactional
     public Meal save(Meal meal, int userId) {
         if (!meal.isNew()) {
-            Meal m = mealRepository.getOne(meal.getId());
-            if (m.getUser().getId() != userId) {
+            Meal m = get(meal.getId(), userId);
+            if (Objects.isNull(m) || (m.getUser().getId() != userId)) {
                 return null;
             }
         }
