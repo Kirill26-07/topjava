@@ -42,7 +42,9 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    protected abstract Serializable convert(LocalDateTime dateTime);
+    protected <T extends Serializable> Serializable convert(T dateTime){
+            return dateTime;
+    }
 
     @Override
     public Meal save(Meal meal, int userId) {
