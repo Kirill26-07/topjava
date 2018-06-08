@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 @Repository
 public class JdbcMealRepositoryPostgresqlImpl extends JdbcMealRepositoryImpl {
 
-    protected LocalDateTime convert(LocalDateTime dateTime){
+    @Override
+    protected Object convert(LocalDateTime dateTime) {
         return dateTime;
     }
+
 }
