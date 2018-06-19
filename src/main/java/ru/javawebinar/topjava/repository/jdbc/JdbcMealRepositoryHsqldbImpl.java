@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 
 @Profile(Profiles.HSQL_DB)
 @Repository
-public class JdbcMealRepositoryHsqldbImpl extends JdbcMealRepositoryImpl {
+public class JdbcMealRepositoryHsqldbImpl extends JdbcMealRepositoryImpl<Timestamp> {
 
     @Override
     protected Timestamp convert(LocalDateTime dateTime) {
-        return  Timestamp.valueOf(dateTime);
+        return Timestamp.valueOf(dateTime);
     }
 }

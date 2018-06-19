@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Profile(Profiles.POSTGRES_DB)
 @Repository
-public class JdbcMealRepositoryPostgresqlImpl extends JdbcMealRepositoryImpl {
+public class JdbcMealRepositoryPostgresqlImpl extends JdbcMealRepositoryImpl<LocalDateTime> {
 
     @Override
-    protected Object convert(LocalDateTime dateTime) {
+    protected LocalDateTime convert(LocalDateTime dateTime) {
         return dateTime;
     }
 
