@@ -11,7 +11,7 @@ import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 
-@ActiveProfiles(value = {Profiles.POSTGRES_DB, Profiles.DATAJPA})
+@ActiveProfiles(Profiles.DATAJPA)
 public class DataJpaMealServiceTest extends MealServiceTest {
 
     @Test

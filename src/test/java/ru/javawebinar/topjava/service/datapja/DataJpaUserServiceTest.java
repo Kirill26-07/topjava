@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static ru.javawebinar.topjava.MealTestData.MEALS;
 import static ru.javawebinar.topjava.UserTestData.USER;
 
-@ActiveProfiles(value = {Profiles.POSTGRES_DB, Profiles.DATAJPA})
+@ActiveProfiles(Profiles.DATAJPA)
 public class DataJpaUserServiceTest extends UserServiceTest {
 
     @Autowired
