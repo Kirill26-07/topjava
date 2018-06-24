@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,9 +56,12 @@ public class MealServiceImpl implements MealService {
         return repository.save(meal, userId);
     }
 
-    @Transactional
     @Override
     public Meal getWithUser(int id, int userId) {
-        return repository.getWithUser(id, userId);
+        try {
+            return repository.getWithUser(id, userId);
+        } catch (UnsupportedOperationException uex) {
+            throw new NotFoundException("No implementation of MealRepository with method getWithUser(int id, int userId)");
+        }
     }
 }

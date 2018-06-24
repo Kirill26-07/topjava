@@ -62,9 +62,12 @@ public class UserServiceImpl implements UserService {
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
-    @Transactional
     @Override
     public User getWithMeals(int id) {
-        return repository.getWithMeals(id);
+        try {
+            return repository.getWithMeals(id);
+        } catch (UnsupportedOperationException uex) {
+            throw new NotFoundException("No implementation of UserRepository with method getWithMeals(int id)");
+        }
     }
 }

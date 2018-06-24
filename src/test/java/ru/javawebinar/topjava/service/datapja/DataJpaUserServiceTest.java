@@ -5,18 +5,12 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
-import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.UserServiceTest;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static ru.javawebinar.topjava.MealTestData.MEALS;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
-import static ru.javawebinar.topjava.UserTestData.USER;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ActiveProfiles(Profiles.DATAJPA)
 public class DataJpaUserServiceTest extends UserServiceTest {
@@ -26,28 +20,17 @@ public class DataJpaUserServiceTest extends UserServiceTest {
 
     @Test
     public void getWithMeals() throws Exception {
-
-        final User user = userService.create(USER);
-
-        List<Meal> meals = MEALS.stream().map(meal -> {
-            return mealService.create(meal, user.getId());
-        }).collect(Collectors.toList());
-
-        Assert.assertEquals(meals, userService.getWithMeals(user.getId()).getMeals());
-        Assert.assertEquals(user, userService.getWithMeals(user.getId()));
+        User u = userService.getWithMeals(USER_ID);
+        Assert.assertEquals(MEALS, u.getMeals());
     }
 
     @Test
     public void getWithoutMeals() throws Exception {
-        int id = ADMIN_ID + 1;
-        String name = "User_without_meals";
-        String email = "user_no_Meals@yandex.ru";
-        String password = "password";
-
-        User userNoMeals = new User(id, name, email, password, Role.ROLE_USER);
-        User savedUser = userService.create(userNoMeals);
-
-        userService.getWithMeals(savedUser.getId()); //todo
-
+        final User user = new User();
+        user.setName("newUser");
+        user.setEmail("1@1.1");
+        user.setPassword("123Qwe");
+        User newUser = userService.create(user);
+        Assert.assertEquals(userService.getWithMeals(newUser.getId()).getMeals().size(), 0);
     }
 }

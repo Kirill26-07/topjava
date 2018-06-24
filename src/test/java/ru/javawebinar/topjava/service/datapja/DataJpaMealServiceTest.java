@@ -15,7 +15,7 @@ import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 public class DataJpaMealServiceTest extends MealServiceTest {
 
     @Test
-    public void get() throws Exception {
+    public void getWithUser() throws Exception {
         Meal actual = mealService.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);
         assertMatch(actual, ADMIN_MEAL1);
         Assert.assertEquals(actual.getUser(), ADMIN);

@@ -41,7 +41,10 @@ public abstract class CommonServiceTest {
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            String result = String.format("\n%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            String result = String.format("\n%-25s %-25s %7d",
+                    description.getTestClass().getSimpleName(),
+                    description.getMethodName(),
+                    TimeUnit.NANOSECONDS.toMillis(nanos));
             results.append(result);
             log.info(result + " ms\n");
         }
@@ -49,11 +52,10 @@ public abstract class CommonServiceTest {
 
     @AfterClass
     public static void printResult() {
-        log.info("\n---------------------------------" +
-                "\nTest                 Duration, ms" +
-                "\n---------------------------------" +
+        log.info("\n--------------------------------------------------------" +
+                "\nClass                  Test                 Duration, ms" +
+                "\n--------------------------------------------------------" +
                 results +
-                "\n---------------------------------");
+                "\n--------------------------------------------------------");
     }
-
 }
