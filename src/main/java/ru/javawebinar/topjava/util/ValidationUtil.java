@@ -13,6 +13,10 @@ public class ValidationUtil {
         checkNotFound(found, "id=" + id);
     }
 
+    public static <T> T checkNotFoundWithId(T object, int id, int user_id) {
+        return checkNotFound(object, "id=" + id + "user_id=" + user_id);
+    }
+
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
     }

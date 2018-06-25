@@ -58,10 +58,6 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal getWithUser(int id, int userId) {
-        try {
-            return repository.getWithUser(id, userId);
-        } catch (UnsupportedOperationException uex) {
-            throw new NotFoundException("No implementation of MealRepository with method getWithUser(int id, int userId)");
-        }
+        return checkNotFoundWithId(repository.getWithUser(id, userId), id, userId);
     }
 }

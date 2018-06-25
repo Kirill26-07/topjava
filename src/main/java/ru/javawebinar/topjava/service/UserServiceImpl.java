@@ -64,10 +64,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getWithMeals(int id) {
-        try {
-            return repository.getWithMeals(id);
-        } catch (UnsupportedOperationException uex) {
-            throw new NotFoundException("No implementation of UserRepository with method getWithMeals(int id)");
-        }
+        return checkNotFoundWithId(repository.getWithMeals(id), id);
     }
 }
