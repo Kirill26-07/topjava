@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.service;
 
 import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
@@ -52,10 +54,11 @@ public abstract class CommonServiceTest {
 
     @AfterClass
     public static void printResult() {
-        log.info("\n--------------------------------------------------------" +
-                "\nClass                  Test                 Duration, ms" +
-                "\n--------------------------------------------------------" +
+        log.info("\n------------------------------------------------------------" +
+                "\nClass                    Test                    Duration, ms" +
+                "\n-------------------------------------------------------------" +
                 results +
-                "\n--------------------------------------------------------");
+                "\n-------------------------------------------------------------");
+        results.setLength(0);
     }
 }
