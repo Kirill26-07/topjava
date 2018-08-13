@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.model;
 
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -16,6 +17,10 @@ public class UserMeal {
 
     public LocalDateTime getDateTime() {
         return dateTime;
+    }
+
+    public LocalDate getLocalDate() {
+        return dateTime.toLocalDate();
     }
 
     public String getDescription() {
