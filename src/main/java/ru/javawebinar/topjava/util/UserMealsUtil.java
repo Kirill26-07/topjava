@@ -31,16 +31,11 @@ public class UserMealsUtil {
 
         final Map<LocalDate, Integer> sumCaloriesPerDay = mealList.stream()
                 .collect(Collectors.groupingBy(UserMeal::getLocalDate, Collectors.summingInt(UserMeal::getCalories)));
-        System.out.println(sumCaloriesPerDay);
 
         return mealList.stream()
                 .filter(userMeal -> TimeUtil.isBetween(userMeal.getDateTime().toLocalTime(), startTime, endTime))
-                .map(userMeal -> getUserMealWithExceed(userMeal, sumCaloriesPerDay.get(userMeal.getLocalDate()) > caloriesPerDay))
+                .map(userMeal -> new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), sumCaloriesPerDay.get(userMeal.getLocalDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
-    }
-
-    private static UserMealWithExceed getUserMealWithExceed(final UserMeal userMeal, final boolean exceededCalories) {
-        return new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), exceededCalories);
     }
 
 }
