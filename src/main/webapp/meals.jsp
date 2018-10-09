@@ -1,4 +1,4 @@
-<%--
+<%@ page import="ru.javawebinar.topjava.repository.InMamoryMealRepository" %><%--
   Created by IntelliJ IDEA.
   User: kirill
   Date: 07/10/2018
@@ -13,5 +13,8 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <h2>Meals</h2>
+<%
+
+%>
 </body>
 </html>

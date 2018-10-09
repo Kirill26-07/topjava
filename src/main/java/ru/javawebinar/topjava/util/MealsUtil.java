@@ -22,14 +22,11 @@ import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
 
-    public static List<MealWithExceed> getFilteredWithExceededInOnePass(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Collection<List<Meal>> list = meals.stream()
-                .collect(Collectors.groupingBy(Meal::getDate)).values();
-
-        return list.stream().flatMap(dayMeals -> {
+    public static List<MealWithExceed> getFilteredWithExceededInOnePass(List<Meal> meals, int caloriesPerDay) {
+        return meals.stream()
+                .collect(Collectors.groupingBy(Meal::getDate)).values().stream().flatMap(dayMeals -> {
             boolean exceed = dayMeals.stream().mapToInt(Meal::getCalories).sum() > caloriesPerDay;
-            return dayMeals.stream().filter(meal ->
-                    TimeUtil.isBetween(meal.getTime(), startTime, endTime))
+            return dayMeals.stream()
                     .map(meal -> createWithExceed(meal, exceed));
         }).collect(toList());
     }
