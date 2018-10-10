@@ -1,20 +1,34 @@
-<%@ page import="ru.javawebinar.topjava.repository.InMamoryMealRepository" %><%--
-  Created by IntelliJ IDEA.
-  User: kirill
-  Date: 07/10/2018
-  Time: 4:19 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Users</title>
+    <title>Meals</title>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
 <h2>Meals</h2>
-<%
+<table border="1">
+    <tr>
+        <th>DateTime</th>
+        <th>Description</th>
+        <th>Calories</th>
+    </tr>
+    <c:forEach var="meal" items="${meals}">
+        <tr bgcolor="${meal.isExceed() ? 'red' : 'green'}">
+            <td><c:out value="${meal.getDateTime().toLocalDate().toString()}"/>
+                <c:out value="${meal.getDateTime().toLocalTime().toString()}"/></td>
+            <td><c:out value="${meal.getDescription()}"/></td>
+            <td><c:out value="${meal.getCalories()}"/></td>
+        </tr>
+    </c:forEach>
+</table>
 
-%>
+<a href="/topJava/add">
+    <h4>Add</h4>
+</a>
+<a href="/topJava/delete">
+    <h4>Delete</h4>
+</a>
+
 </body>
 </html>

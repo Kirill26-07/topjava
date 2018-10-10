@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,8 +23,8 @@ import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
 
-    public static List<MealWithExceed> getFilteredWithExceededInOnePass(List<Meal> meals, int caloriesPerDay) {
-        return meals.stream()
+    public static List<MealWithExceed> getMealWithExceeded(ConcurrentMap<Long, Meal> meals, int caloriesPerDay) {
+        return meals.values().stream()
                 .collect(Collectors.groupingBy(Meal::getDate)).values().stream().flatMap(dayMeals -> {
             boolean exceed = dayMeals.stream().mapToInt(Meal::getCalories).sum() > caloriesPerDay;
             return dayMeals.stream()
