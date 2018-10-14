@@ -15,23 +15,29 @@ public class MealServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
-    private Storage storage = new InMemoryMealRepository();
+    private static Storage storage = new InMemoryMealRepository();
+
+    private static final String BASE_PATH = "/meals";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String contextPath = req.getContextPath();
+        String servletPath = req.getServletPath();
         req.setCharacterEncoding("UTF-8");
-        if (contextPath.equals("/add")) {
-            req.setAttribute("meals", storage.addMeal((String) req.getAttribute("description"), (int) req.getAttribute("calories")));
-            log.info("User add meal");
-            sendResponse(req, resp);
-        } else if (contextPath.equals("/delete")) {
-            req.setAttribute("meals", storage.deleteMeal((long) req.getAttribute("id")));
-            log.info("User delete meal");
-            sendResponse(req, resp);
-        } else {
-            req.setAttribute("meals", storage.getAllMealWithExceeded());
-            sendResponse(req, resp);
+        switch (servletPath) {
+            case BASE_PATH + "/add":
+                req.setAttribute("meals", storage.addMeal(req.getParameter("description"), Integer.valueOf(req.getParameter("calories"))));
+                log.info("User add meal");
+                sendResponse(req, resp);
+                break;
+            case BASE_PATH + "/delete":
+                req.setAttribute("meals", storage.deleteMeal(Long.valueOf(req.getParameter("id"))));
+                log.info("User delete meal");
+                sendResponse(req, resp);
+                break;
+            default:
+                req.setAttribute("meals", storage.getAllMealWithExceeded());
+                sendResponse(req, resp);
+                break;
         }
     }
 
