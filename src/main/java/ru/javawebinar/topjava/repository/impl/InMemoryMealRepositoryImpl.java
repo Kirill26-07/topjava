@@ -1,13 +1,16 @@
-package ru.javawebinar.topjava.repository.mock;
+package ru.javawebinar.topjava.repository.impl;
 
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.web.SecurityUtil;
 
-import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class InMemoryMealRepositoryImpl implements MealRepository {
 
@@ -22,6 +25,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public Meal save(final Meal meal) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
+            meal.setUserId(SecurityUtil.authUserId());
             repository.put(meal.getId(), meal);
             return meal;
         }
@@ -36,12 +40,19 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal get(final int id) {
-        return repository.get(id);
+        int currentUserId = SecurityUtil.authUserId();
+        Meal meal = repository.get(id);
+        return meal.getUserId() == currentUserId ? meal : null;
     }
 
     @Override
-    public Collection<Meal> getAll() {
-        return repository.values();
+    public List<Meal> getAll() {
+        int currentUserId = SecurityUtil.authUserId();
+        return repository.values().stream()
+                .filter(meal -> meal.getUserId() == currentUserId)
+                .sorted(Comparator.comparing(Meal::getDate).reversed())
+                .collect(Collectors.toList());
     }
+
 }
 
