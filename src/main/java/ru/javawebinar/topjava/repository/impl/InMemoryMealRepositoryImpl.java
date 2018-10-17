@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.repository.impl;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.util.Comparator;
@@ -39,17 +40,19 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Meal get(final int id) {
-        int currentUserId = SecurityUtil.authUserId();
-        Meal meal = repository.get(id);
-        return meal.getUserId() == currentUserId ? meal : null;
+    public Meal get(final int mealId, final int userId) {
+        Meal meal = repository.get(mealId);
+        if (meal != null && meal.getUserId() == userId) {
+            return meal;
+        } else {
+            throw new NotFoundException("Meal is not found!");
+        }
     }
 
     @Override
-    public List<Meal> getAll() {
-        int currentUserId = SecurityUtil.authUserId();
+    public List<Meal> getAll(final int userId) {
         return repository.values().stream()
-                .filter(meal -> meal.getUserId() == currentUserId)
+                .filter(meal -> meal.getUserId() == userId)
                 .sorted(Comparator.comparing(Meal::getDate).reversed())
                 .collect(Collectors.toList());
     }

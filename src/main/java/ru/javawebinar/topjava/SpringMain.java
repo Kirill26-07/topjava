@@ -4,7 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.web.user.AdminRestController;
+import ru.javawebinar.topjava.web.controller.user.AdminRestController;
 
 import java.util.Arrays;
 

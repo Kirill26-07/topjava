@@ -9,8 +9,8 @@ public interface MealRepository {
 
     void delete(int id);
 
-    Meal get(int id);
+    Meal get(int mealId, int userId);
 
-    List<Meal> getAll();
+    List<Meal> getAll(int userId);
 
 }
