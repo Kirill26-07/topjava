@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+@Repository
 public class InMemoryMealRepositoryImpl implements MealRepository {
 
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
@@ -26,7 +28,6 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public Meal save(final Meal meal) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            meal.setUserId(SecurityUtil.authUserId());
             repository.put(meal.getId(), meal);
             return meal;
         }
@@ -40,21 +41,16 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Meal get(final int mealId, final int userId) {
-        Meal meal = repository.get(mealId);
-        if (meal != null && meal.getUserId() == userId) {
-            return meal;
-        } else {
-            throw new NotFoundException("Meal is not found!");
-        }
-    }
-
-    @Override
     public List<Meal> getAll(final int userId) {
-        return repository.values().stream()
+        List<Meal> meals = repository.values().stream()
                 .filter(meal -> meal.getUserId() == userId)
                 .sorted(Comparator.comparing(Meal::getDate).reversed())
                 .collect(Collectors.toList());
+        if (meals.isEmpty()) {
+            throw new NotFoundException("Meal has not found!");
+        } else {
+            return meals;
+        }
     }
 
 }
