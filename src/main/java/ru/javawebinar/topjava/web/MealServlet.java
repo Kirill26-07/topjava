@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.controller.meal.MealRestController;
@@ -20,18 +21,26 @@ import java.util.Objects;
 
 public class MealServlet extends HttpServlet {
 
+    private final ConfigurableApplicationContext applicationContext;
+
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
     private final MealRestController mealController;
 
     public MealServlet() {
-        ConfigurableApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext = new ClassPathXmlApplicationContext("spring/spring-app.xml");
         this.mealController = applicationContext.getBean(MealRestController.class);
     }
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+    }
+
+    @Override
+    public void destroy() {
+        applicationContext.close();
+        super.destroy();
     }
 
     @Override
@@ -45,7 +54,7 @@ public class MealServlet extends HttpServlet {
                 Integer.parseInt(request.getParameter("calories")));
 
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal);
+        mealController.addMeal(meal);
         response.sendRedirect("meals");
     }
 
@@ -57,22 +66,14 @@ public class MealServlet extends HttpServlet {
             case "delete":
                 int id = getId(request);
                 log.info("Delete {}", id);
-                repository.delete(id);
+                mealController.removeMeal(id);
                 response.sendRedirect("meals");
                 break;
             case "create":
-            case "update":
-                final Meal meal = "create".equals(action) ?
-                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        repository.getAll(SecurityUtil.authUserId());
-                request.setAttribute("meal", meal);
-                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
-                break;
             case "all":
             default:
                 log.info("getAll");
-                request.setAttribute("meals",
-                        MealsUtil.getWithExceeded(repository.getAll(SecurityUtil.authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+                request.setAttribute("meals", mealController.getAllMeals(SecurityUtil.authUserId()));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
