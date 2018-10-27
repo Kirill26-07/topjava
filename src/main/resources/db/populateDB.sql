@@ -19,3 +19,6 @@ INSERT INTO meal(id, date, description, calories) VALUES
   (DEFAULT, '2018-10-10', 'Обед', 2000),
   (DEFAULT, '2018-10-11', 'Ужин', 800),
   (DEFAULT, '2018-10-12', 'Обед', 1300);
+
+INSERT INTO user_meals(user_id, meal_id) VALUES
+  (5, 1), (5, 2), (5, 3), (5, 4), (6, 5), (6, 6), (6, 7);

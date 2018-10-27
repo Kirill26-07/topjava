@@ -42,7 +42,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
 
     @Override
-    public Meal save(Meal meal, int userId) {
+    public Meal save(Meal meal, Integer userId) {
         Map<Integer, Meal> meals = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
@@ -63,28 +63,28 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public boolean delete(int id, int userId) {
+    public boolean delete(Integer id, Integer userId) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals != null && meals.remove(id) != null;
     }
 
     @Override
-    public Meal get(int id, int userId) {
+    public Meal get(Integer id, Integer userId) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals == null ? null : meals.get(id);
     }
 
     @Override
-    public List<Meal> getAll(int userId) {
+    public List<Meal> getAll(Integer userId) {
         return getAllFiltered(userId, meal -> true);
     }
 
     @Override
-    public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+    public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, Integer userId) {
         return getAllFiltered(userId, meal -> Util.isBetween(meal.getDateTime(), startDateTime, endDateTime));
     }
 
-    private List<Meal> getAllFiltered(int userId, Predicate<Meal> filter) {
+    private List<Meal> getAllFiltered(Integer userId, Predicate<Meal> filter) {
         Map<Integer, Meal> meals = repository.get(userId);
         return CollectionUtils.isEmpty(meals) ? Collections.emptyList() :
                 meals.values().stream()
