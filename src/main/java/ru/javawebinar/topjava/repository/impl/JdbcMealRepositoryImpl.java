@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.repository.jdbc;
+package ru.javawebinar.topjava.repository.impl;
 
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
