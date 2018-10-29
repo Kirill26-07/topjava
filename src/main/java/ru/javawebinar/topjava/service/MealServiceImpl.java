@@ -37,7 +37,9 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+        List<Meal> list = repository.getAll(userId);
+        list.forEach(System.out::println);
+        return list;
     }
 
     @Override

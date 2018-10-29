@@ -6,25 +6,28 @@ import java.time.LocalTime;
 
 public class Meal extends AbstractBaseEntity {
 
-    private final LocalDateTime dateTime;
+    private LocalDateTime date;
 
-    private final String description;
+    private String description;
 
-    private final int calories;
+    private int calories;
 
-    public Meal(LocalDateTime dateTime, String description, int calories) {
-        this(null, dateTime, description, calories);
+    public Meal() {
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+    public Meal(final LocalDateTime date, final String description, final int calories) {
+        this(null, date, description, calories);
+    }
+
+    public Meal(final Integer id, final LocalDateTime date, final String description, final int calories) {
         super(id);
-        this.dateTime = dateTime;
+        this.date = date;
         this.description = description;
         this.calories = calories;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getLocalDate() {
+        return date;
     }
 
     public String getDescription() {
@@ -36,18 +39,30 @@ public class Meal extends AbstractBaseEntity {
     }
 
     public LocalDate getDate() {
-        return dateTime.toLocalDate();
+        return date.toLocalDate();
     }
 
     public LocalTime getTime() {
-        return dateTime.toLocalTime();
+        return date.toLocalTime();
+    }
+
+    public void setDate(final LocalDateTime date) {
+        this.date = date;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public void setCalories(final int calories) {
+        this.calories = calories;
     }
 
     @Override
     public String toString() {
         return "Meal{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", date=" + date +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
                 '}';
