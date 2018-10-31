@@ -13,6 +13,7 @@ public class Meal extends AbstractBaseEntity {
     private int calories;
 
     public Meal() {
+        super();
     }
 
     public Meal(final LocalDateTime date, final String description, final int calories) {
