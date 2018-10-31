@@ -1,6 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0ec3d46c378242318d535bd8eee3683e)](https://www.codacy.com/app/Kirill26-07/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kirill26-07/topjava&amp;utm_campaign=Badge_Grade)
-
-[![Build Status](https://travis-ci.org/Kirill26-07/topjava.svg?branch=master)](https://travis-ci.org/Kirill26-07/topjava)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0ec3d46c378242318d535bd8eee3683e)](https://www.codacy.com/app/Kirill26-07/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kirill26-07/topjava&amp;utm_campaign=Badge_Grade) [![Build Status](https://travis-ci.org/Kirill26-07/topjava.svg?branch=master)](https://travis-ci.org/Kirill26-07/topjava)
 
 Java Enterprise Online Project 
 ===============================
