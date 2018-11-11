@@ -1,30 +1,51 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@Entity
+@Table(name = "meals")
+@NamedQueries(value = {
+        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id = :id AND m.user.id = :userId"),
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m WHERE m.user.id = :userId"),
+        @NamedQuery(name = Meal.BETWEEN, query = "SELECT m FROM Meal m WHERE m.dateTime BETWEEN :startTime AND :andTime AND m.user.id = :userId")
+})
 public class Meal extends AbstractBaseEntity {
 
+    public static final String GET = "meal.get";
+    public static final String GET_ALL = "meal.getAll";
+    public static final String BETWEEN = "meal.between";
+
+    @Column(name = "date_time")
+    @NotEmpty
     private LocalDateTime dateTime;
 
+    @Column(name = "description")
+    @NotBlank
+    @Size(max = 20)
     private String description;
 
+    @Column(name = "calories")
+    @Range(min = 10, max = 10000)
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Meal() {
     }
 
-    public Meal(LocalDateTime dateTime, String description, int calories) {
+    public Meal(final LocalDateTime dateTime, final String description, final int calories) {
         this(null, dateTime, description, calories);
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+    public Meal(final Integer id, final LocalDateTime dateTime, final String description, final int calories) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
@@ -51,15 +72,15 @@ public class Meal extends AbstractBaseEntity {
         return dateTime.toLocalTime();
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(final LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(final int calories) {
         this.calories = calories;
     }
 
@@ -67,7 +88,7 @@ public class Meal extends AbstractBaseEntity {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(final User user) {
         this.user = user;
     }
 

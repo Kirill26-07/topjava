@@ -37,6 +37,11 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         return meals.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
+    @Override
+    public Meal update(Meal meal, int userId) {
+        return null;
+    }
+
     @PostConstruct
     public void postConstruct() {
         log.info("+++ PostConstruct");
