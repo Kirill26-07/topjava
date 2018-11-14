@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @NamedQueries(value = {
         @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id = :id AND m.user.id = :userId"),
         @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m WHERE m.user.id = :userId"),
-        @NamedQuery(name = Meal.BETWEEN, query = "SELECT m FROM Meal m WHERE m.dateTime BETWEEN :startTime AND :andTime AND m.user.id = :userId")
+        @NamedQuery(name = Meal.BETWEEN, query = "SELECT m FROM Meal m WHERE m.dateTime BETWEEN :startDate AND :andDate AND m.user.id = :userId")
 })
 public class Meal extends AbstractBaseEntity {
 
@@ -24,7 +24,7 @@ public class Meal extends AbstractBaseEntity {
     public static final String BETWEEN = "meal.between";
 
     @Column(name = "date_time")
-    @NotEmpty
+    @NotNull
     private LocalDateTime dateTime;
 
     @Column(name = "description")

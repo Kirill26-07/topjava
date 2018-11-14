@@ -7,16 +7,19 @@ import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
+@org.springframework.transaction.annotation.Transactional(readOnly = true)
 public class JpaMealRepositoryImpl implements MealRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
+    @Transactional
     public Meal save(final Meal meal, final int userId) {
         meal.setUser(em.getReference(User.class, userId));
         em.persist(meal);
@@ -24,6 +27,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
     }
 
     @Override
+    @Transactional
     public Meal update(final Meal meal, final int userId) {
         meal.setUser(em.getReference(User.class, userId));
         em.merge(meal);
@@ -31,6 +35,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(final int id, final int userId) {
         final Meal meal = get(id, userId);
         em.remove(meal);
@@ -54,7 +59,11 @@ public class JpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(final LocalDateTime startDate, final LocalDateTime endDate, final int userId) {
-        return null;
+        return em.createNamedQuery(Meal.BETWEEN, Meal.class)
+                .setParameter("startDate", startDate)
+                .setParameter("andDate", endDate)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 
 }
