@@ -9,12 +9,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import javax.persistence.EntityManagerFactory;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(basePackages = {"ru.javawebinar.**.repository.datajpa"})
+@EnableTransactionManagement
 public class DbConfig {
 
     @Bean
@@ -48,9 +51,9 @@ public class DbConfig {
     }
 
     @Bean
-    public JpaTransactionManager jpaTransactionManager(final EntityManagerFactory entityManagerFactory) {
+    public PlatformTransactionManager transactionManager(){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
 
